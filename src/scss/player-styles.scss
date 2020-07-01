@@ -1,0 +1,40 @@
+$button_text_color:red;
+
+#td_container {
+  .transport-button {
+    padding: 10px 0;
+    border:none;
+    //background-color:#777;
+    color:#FFF;
+    outline: none;
+    width: 70px;
+  }
+
+  .transport-button {
+    &.playing, &.stopped {
+      cursor:pointer;
+    }
+
+    .transport-icon {
+      width: 35px;
+      height: 35px;
+      display: block;
+      margin: 0px auto 4px auto;
+      position: relative;
+    }
+  }
+
+   #tdplayer_ondemand {
+    display:none;
+  }
+
+  .transport-icon .shape {
+    stroke-width:0;
+  }
+
+/*
+  .transport-icon .shape {
+    fill: $button_text_color;
+  }
+  */
+}
