@@ -10,6 +10,10 @@ const path = require('path');
     module: {
       rules: [
         {
+          test: /\.css$/,
+          use: [ 'style-loader', 'css-loader' ],
+        },
+        {
           test: /\.s[ac]ss$/,
           use: [
             'style-loader',

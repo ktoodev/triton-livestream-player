@@ -1,6 +1,12 @@
-$button_text_color:red;
+
 
 #td_container {
+
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: flex-start;
+
+
   .transport-button {
     padding: 10px 0;
     border:none;
@@ -8,9 +14,30 @@ $button_text_color:red;
     color:#FFF;
     outline: none;
     width: 70px;
+
+  }
+
+  &:after {
+    content:' ';
+    clear:both;
+    display:block;
+  }
+
+
+  .volume-slider-container, .transport-button {
+    flex-grow: 0;
+  }
+
+  .volume-slider-container {
+    flex-basis:25%;
+    min-width:100px;
+    flex-shrink:1;
+    padding:10px;
   }
 
   .transport-button {
+    flex-shrink:0;
+
     &.playing, &.stopped {
       cursor:pointer;
     }
@@ -32,9 +59,4 @@ $button_text_color:red;
     stroke-width:0;
   }
 
-/*
-  .transport-icon .shape {
-    fill: $button_text_color;
-  }
-  */
 }

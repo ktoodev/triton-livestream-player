@@ -1,0 +1,102 @@
+/*!
+ * jQuery UI Slider 1.12.1
+ * http://jqueryui.com
+ *
+ * Copyright jQuery Foundation and other contributors
+ * Released under the MIT license.
+ * http://jquery.org/license
+ *
+ * http://api.jqueryui.com/slider/#theming
+ */
+
+$track_width: 6px;
+$handle_height: 20px;
+$handle_width: $handle_height;
+
+$track_color: gray;
+$handle_color: blue;
+
+#td_container {
+
+
+  .ui-slider {
+  	position: relative;
+  	text-align: left;
+
+
+
+    background-color: $track_color;
+
+
+    .ui-slider-handle {
+    	position: absolute;
+    	z-index: 2;
+    	width: $handle_width;
+    	height: $handle_height;
+    	cursor: default;
+    	-ms-touch-action: none;
+    	touch-action: none;
+
+      border-radius: max($handle_width, $handle_height) / 2;
+
+      background-color: $handle_color;
+    }
+    .ui-slider-range {
+    	position: absolute;
+    	z-index: 1;
+    	font-size: .7em;
+    	display: block;
+    	border: 0;
+    	background-position: 0 0;
+    }
+
+    /* support: IE8 - See #6727 */
+    &.ui-state-disabled .ui-slider-handle,
+    &.ui-state-disabled .ui-slider-range {
+    	filter: inherit;
+    }
+
+  }
+  .ui-slider-horizontal {
+  	height: $track_width;
+
+    top: 50%;
+    margin-top: 0 - ($track_width / 2);
+
+    min-width:75px;
+  }
+  .ui-slider-horizontal .ui-slider-handle {
+  	top: 0 - $handle_height/2 + $track_width/2;
+  	margin-left: 0 - $handle_width/2;
+  }
+  .ui-slider-horizontal .ui-slider-range {
+  	top: 0;
+  	height: 100%;
+  }
+  .ui-slider-horizontal .ui-slider-range-min {
+  	left: 0;
+  }
+  .ui-slider-horizontal .ui-slider-range-max {
+  	right: 0;
+  }
+
+  .ui-slider-vertical {
+  	width: $track_width;
+  	height: 100px;
+  }
+  .ui-slider-vertical .ui-slider-handle {
+  	left: 0 - $handle_width/2 - $track_width/2;;
+  	margin-left: 0;
+  	margin-bottom: 0 - $handle_height/2;
+  }
+  .ui-slider-vertical .ui-slider-range {
+  	left: 0;
+  	width: 100%;
+  }
+  .ui-slider-vertical .ui-slider-range-min {
+  	bottom: 0;
+  }
+  .ui-slider-vertical .ui-slider-range-max {
+  	top: 0;
+  }
+}

@@ -3,7 +3,11 @@ import './scss/loader.scss';
 
 
 import $ from "jquery";
+import 'jquery-ui';
 import 'jquery-ui/ui/widgets/slider.js';
+import './scss/slider.scss';
+
+import Cookies from 'js-cookie';
 
 import {initialize_customization} from './initialize_customization.js';
 
@@ -30,6 +34,10 @@ const STATUS = Object.freeze({
  */
 const container_id = 'td_container';
 
+const cookie_expiration = new Date('December 31, 9999 01:01:00');
+Cookies.set('test', 'test value here!!', {expires: cookie_expiration});
+console.log (Cookies.get('test'));
+console.log (Cookies.get('sdfsdf'));
 
 $( document ).ready(function() {
 
@@ -75,6 +83,34 @@ function set_button_state (state) {
 // Insert the markup for the player UI
 $('#' + container_id).html(player_markup );
 
+// use the stored volume value (if it exists) with a minimum of 15 (so the stream doesn't start silent);
+// otherwise default to a volume of 75
+let volume_cookie = Cookies.getJSON()['ktoo-stream-volumes'] ? Cookies.getJSON()['ktoo-stream-volumes'] : {};
+
+console.log (volume_cookie);
+
+let default_volume = 75;
+if (volume_cookie) {
+  if (volume_cookie[station]) {
+    default_volume = Math.max (15, volume_cookie[station]);
+  }
+  else if (volume_cookie['default']) {
+    default_volume = Math.max (15, volume_cookie['default']);
+  }
+}
+console.log ('starting value:  ' + default_volume);
+
+$( '#' + container_id + ' .volume-slider' ).slider({
+  value: default_volume,
+  slide: function( event, ui ) {
+    player.setVolume(ui.value / 100);
+    volume_cookie[station] = ui.value;
+    volume_cookie['default'] = ui.value;
+    Cookies.set ('ktoo-stream-volumes', volume_cookie);
+  }
+});
+
+
 // Initialize customizations from the player container
 initialize_customization();
 
@@ -104,6 +140,8 @@ function initPlayer()
 }
 
 
+
+
 /**
  * Callback to finish setup after the player is ready
  */
@@ -111,6 +149,7 @@ function onPlayerReady() {
   set_button_state (STATUS.STOPPED);
 
     player.addEventListener( 'stream-status', onStatusChange );
+
 
     // toggle what the player is doing (based on the current {@link player_state})
     $ ('#' + container_id + ' .transport-button').click (function () {
@@ -124,6 +163,9 @@ function onPlayerReady() {
           player.stop();
       }
     });
+
+
+        player.setVolume(default_volume);
 }
 
 /**
@@ -163,7 +205,7 @@ function onStatusChange (event) {
 
 /**
  * Callback function to handle errors
- * @todo Show error messages and instructions to the end user in a useful way 
+ * @todo Show error messages and instructions to the end user in a useful way
  */
 function onPlayerError( e ) {
     console.log(object);

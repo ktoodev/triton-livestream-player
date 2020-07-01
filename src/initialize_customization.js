@@ -8,8 +8,6 @@ export function initialize_customization () {
   let background_color_hover = $('#td_container').data('background-hover');
   let foreground_color_hover = $('#td_container').data('foreground-hover');
 
-  console.log ('fg-h: ' + foreground_color_hover);
-
   function default_attributes () {
     $("#td_container .transport-button").css('background-color', background_color);
     $("#td_container .transport-button").css('color', foreground_color);
