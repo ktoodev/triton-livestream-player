@@ -127,7 +127,10 @@ function initPlayer()
     var tdPlayerConfig = {
         coreModules: [{
             id: 'MediaPlayer',
-            playerId: container_id
+            playerId: container_id,
+            geoTargeting: false,
+            techPriority:['Html5', 'Flash'],
+            audioAdaptive: true
         }],
         playerReady: onPlayerReady,
         configurationError: onPlayerError,
@@ -164,8 +167,9 @@ function onPlayerReady() {
       }
     });
 
-
-        player.setVolume(default_volume);
+    console.log ('setting initial volume');
+    player.setVolume(default_volume/100);
+    console.log ('set initial volume: ' + default_volume/100);
 }
 
 /**
