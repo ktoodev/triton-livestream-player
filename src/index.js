@@ -7,6 +7,8 @@ import 'jquery-ui';
 import 'jquery-ui/ui/widgets/slider.js';
 import './scss/slider.scss';
 
+import {conditional_volume} from './audio-compatibility.js';
+
 import Cookies from 'js-cookie';
 
 import {initialize_customization} from './initialize_customization.js';
@@ -29,15 +31,17 @@ const STATUS = Object.freeze({
   STOPPED:'stopped',
 });
 
-/**
- * @constant {string} container_id - The element ID for the player container
- */
-const container_id = 'td_container';
 
+/**
+ * @constant - The current script element
+ */
+const current_script = document.scripts[document.scripts.length - 1];
+
+
+/**
+ * @constant {Date} cookie_expiration - The date settings cookies should expire
+ */
 const cookie_expiration = new Date('December 31, 9999 01:01:00');
-Cookies.set('test', 'test value here!!', {expires: cookie_expiration});
-console.log (Cookies.get('test'));
-console.log (Cookies.get('sdfsdf'));
 
 $( document ).ready(function() {
 
@@ -52,6 +56,37 @@ button_states[STATUS.PLAYING] = {class: 'playing', content: stop_icon + '<div cl
 button_states[STATUS.STOPPED] = {class: 'stopped', content: play_icon + '<div class="status">Play</div>'};
 
 
+
+/**
+ * @constant player_id - The ID of the overall player container
+ */
+const player_id = $(current_script).data('player-id');
+
+$('#' + player_id).wrapInner( "<div class='player_contents'></div>");
+
+// Insert the markup for the player UI
+$('#' + player_id).prepend(player_markup );
+
+// Initialize customizations from the player container
+initialize_customization(player_id);
+
+
+conditional_volume (function () {
+
+  $ ('#' + player_id + ' .volume-slider-container').show();
+});
+
+
+$('#' + player_id).addClass('td_player_container');
+
+/**
+ * @constant {string} td_container_id - The element ID for the player container
+ */
+const td_container_id = 'td_container_' + Math.floor(Math.random()* 10000);
+
+$('#' + player_id + ' .td_container').attr('id', td_container_id);
+
+
 /**
  * Triton player object from {@link https://userguides.tritondigital.com/spc/tdplay2/|Triton SDK}
  * @var {TDSdk}
@@ -63,10 +98,6 @@ var player;
  */
 var player_state;
 
-/**
- * @constant {string} station - Triton station name (from the data-station attribute on the player container - see {@link container_id})
- */
-const station = $('#' + container_id).data('station');
 
 
 /**
@@ -75,44 +106,48 @@ const station = $('#' + container_id).data('station');
  * @param {string} state - The new state (a property of {@link STATUS})
  */
 function set_button_state (state) {
-  $('#' + container_id + ' .transport-button').html(button_states[state].content);
-  $('#' + container_id + ' .transport-button').attr('class', button_states[state].class + ' transport-button' );
+  $('#' + player_id + ' .transport-button').html(button_states[state].content);
+  $('#' + player_id + ' .transport-button').attr('class', button_states[state].class + ' transport-button' );
   player_state = state;
 }
 
-// Insert the markup for the player UI
-$('#' + container_id).html(player_markup );
+
+/**
+ * @constant {string} station - Triton station name (from the data-station attribute on the player container - see {@link td_container_id})
+ */
+const station = $('#' + player_id).data('station');
+
 
 // use the stored volume value (if it exists) with a minimum of 15 (so the stream doesn't start silent);
 // otherwise default to a volume of 75
-let volume_cookie = Cookies.getJSON()['ktoo-stream-volumes'] ? Cookies.getJSON()['ktoo-stream-volumes'] : {};
+let volume_settings = Cookies.getJSON()['ktoo-stream-volumes'] ? Cookies.getJSON()['ktoo-stream-volumes'] : {};
 
-console.log (volume_cookie);
 
 let default_volume = 75;
-if (volume_cookie) {
-  if (volume_cookie[station]) {
-    default_volume = Math.max (15, volume_cookie[station]);
+if (volume_settings) {
+  if (volume_settings[station]) {
+    default_volume = Math.max (15, volume_settings[station]);
   }
-  else if (volume_cookie['default']) {
-    default_volume = Math.max (15, volume_cookie['default']);
+  else if (volume_settings['default']) {
+    default_volume = Math.max (15, volume_settings['default']);
   }
 }
-console.log ('starting value:  ' + default_volume);
 
-$( '#' + container_id + ' .volume-slider' ).slider({
-  value: default_volume,
-  slide: function( event, ui ) {
-    player.setVolume(ui.value / 100);
-    volume_cookie[station] = ui.value;
-    volume_cookie['default'] = ui.value;
-    Cookies.set ('ktoo-stream-volumes', volume_cookie);
-  }
+conditional_volume (function () {
+
+  $( '#' + player_id + ' .volume-slider' ).slider({
+    value: default_volume,
+    slide: function( event, ui ) {
+      // set
+      volume_settings[station] = ui.value;
+      volume_settings['default'] = ui.value;
+      player.setVolume(ui.value/100);
+      Cookies.set ('ktoo-stream-volumes', volume_settings);
+    }
+  });
 });
 
 
-// Initialize customizations from the player container
-initialize_customization();
 
 // The first state is the player initializing - this will be changed on the playerReady event
 set_button_state ('initializing');
@@ -127,7 +162,7 @@ function initPlayer()
     var tdPlayerConfig = {
         coreModules: [{
             id: 'MediaPlayer',
-            playerId: container_id,
+            playerId: td_container_id,
             geoTargeting: false,
             techPriority:['Html5', 'Flash'],
             audioAdaptive: true
@@ -151,25 +186,40 @@ function initPlayer()
 function onPlayerReady() {
   set_button_state (STATUS.STOPPED);
 
-    player.addEventListener( 'stream-status', onStatusChange );
 
 
-    // toggle what the player is doing (based on the current {@link player_state})
-    $ ('#' + container_id + ' .transport-button').click (function () {
-      switch (player_state) {
-        case STATUS.STOPPED:
-          player.play( {station:station} );
-          break;
 
-        case STATUS.LOADING:
-        case STATUS.PLAYING:
-          player.stop();
-      }
-    });
+  player.addEventListener( 'stream-status', onStatusChange );
 
-    console.log ('setting initial volume');
+
+  // toggle what the player is doing (based on the current {@link player_state})
+  $ ('#' + player_id + ' .transport-button').click (function () {
+    switch (player_state) {
+      case STATUS.STOPPED:
+        let volume = volume_settings[station] ? volume_settings[station] : default_volume;
+        player.setVolume (volume/100);
+        player.play( {station:station} );
+        break;
+
+      case STATUS.LOADING:
+      case STATUS.PLAYING:
+        player.stop();
+    }
+  });
+
+  conditional_volume (function () {
+    initialize_customization(player_id);
+
+
+    $ ('#' + player_id + ' .volume-slider').show();
+
     player.setVolume(default_volume/100);
-    console.log ('set initial volume: ' + default_volume/100);
+
+    $( '#' + player_id + ' .volume-slider' ).slider({
+      value: player.getVolume() * 100
+    });
+  });
+
 }
 
 /**

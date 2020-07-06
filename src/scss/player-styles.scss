@@ -1,16 +1,19 @@
 
-
-#td_container {
+.td_player_container {
 
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
 
 
+  .player_contents {
+    flex-basis: 40%;
+    flex-grow: 4;
+  }
+
   .transport-button {
     padding: 10px 0;
     border:none;
-    //background-color:#777;
     color:#FFF;
     outline: none;
     width: 70px;
@@ -23,20 +26,17 @@
     display:block;
   }
 
-
-  .volume-slider-container, .transport-button {
-    flex-grow: 0;
-  }
-
   .volume-slider-container {
     flex-basis:25%;
     min-width:100px;
-    flex-shrink:1;
+    flex-grow:1;
     padding:10px;
+    max-width: 300px;
   }
 
   .transport-button {
     flex-shrink:0;
+    flex-grow: 0;
 
     &.playing, &.stopped {
       cursor:pointer;

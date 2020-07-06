@@ -1,4 +1,10 @@
 /*!
+ * Modified from the original JQuery UI slider styles by David Purdy
+ *
+ * Copyright KTOO Public Media
+ *
+ * -----------
+ *
  * jQuery UI Slider 1.12.1
  * http://jqueryui.com
  *
@@ -14,9 +20,9 @@ $handle_height: 20px;
 $handle_width: $handle_height;
 
 $track_color: gray;
-$handle_color: blue;
+$handle_color: white;
 
-#td_container {
+.td_player_container {
 
 
   .ui-slider {
@@ -37,9 +43,12 @@ $handle_color: blue;
     	-ms-touch-action: none;
     	touch-action: none;
 
-      border-radius: max($handle_width, $handle_height) / 2;
+      outline:none;
+
+      border-radius: max($handle_width, $handle_height);
 
       background-color: $handle_color;
+
     }
     .ui-slider-range {
     	position: absolute;

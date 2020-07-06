@@ -24,6 +24,7 @@
     "webpack-cli": "^3.3.11"
   },
   "dependencies": {
+    "color-alpha": "^1.0.4",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",
     "svg-loaders": "^0.2.0"
