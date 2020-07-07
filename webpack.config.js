@@ -5,7 +5,7 @@ const path = require('path');
 
     entry: './src/index.js',
     output: {
-     filename: 'index.js',
+     filename: 'player.js',
       path: path.resolve(__dirname, 'dist'),
     },
     watch: true,
