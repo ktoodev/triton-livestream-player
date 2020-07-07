@@ -64,11 +64,15 @@ export function initialize_customization (player_id) {
         boxShadow: foreground_color_hover + ' 0px 0px 0px 2px',
         border: '2px solid ' + background_color,
         marginTop: '-2px',
+        marginLeft: parseFloat ($(this).css('margin-left')) - 2 + 'px',
         backgroundColor: foreground_color_hover
       });
   });
 
-  /* Reset the volume handle styles back to their default state on blur */ 
-  $('#' + player_id + ' .ui-slider .ui-slider-handle').blur (default_attributes);
+  /* Reset the volume handle styles back to their default state on blur */
+  $('#' + player_id + ' .ui-slider .ui-slider-handle').blur ( function () {
+    $(this).css('margin-left', parseFloat ($(this).css('margin-left')) + 2 + 'px');
+    default_attributes();
+  });
 
 }
