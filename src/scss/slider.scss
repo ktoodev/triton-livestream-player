@@ -75,9 +75,10 @@ $handle_color: white;
     min-width:75px;
   }
   .ui-slider-horizontal .ui-slider-handle {
-  	top: 0 - $handle_height/2 + $track_width/2;
+  	top: 0 + $track_width/2 - $handle_height/2;
   	margin-left: 0 - $handle_width/2 - 2px;
     margin-top:-2px;
+    box-sizing:content-box;
   }
   .ui-slider-horizontal .ui-slider-range {
   	top: 0;
