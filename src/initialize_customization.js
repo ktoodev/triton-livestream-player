@@ -13,8 +13,8 @@ export function initialize_customization (player_id) {
   // get the params from the player container (or set them to defaults)
   let background_color = player.data('background') ? player.data('background') : '#333333';
   let foreground_color = player.data('foreground') ? player.data('foreground') : '#FFFFFF';
-  let background_color_hover = player.data('background-hover') ? player.data('background-hover') : '#000000';
-  let foreground_color_hover = player.data('foreground-hover') ? player.data('foreground-hover') : '#FFFFFF';
+  let background_color_hover = player.data('background-hover') ? player.data('background-hover') : background_color;
+  let foreground_color_hover = player.data('foreground-hover') ? player.data('foreground-hover') : foreground_color;
 
   /**
    * Apply params to the player's default state
@@ -35,8 +35,8 @@ export function initialize_customization (player_id) {
     // slider handle
     $('#' + player_id + ' .ui-slider .ui-slider-handle').css({
       boxShadow: 'none',
-      border: 'none',
-      marginTop: 0,
+      border: '2px solid ' + background_color,
+      //marginTop: 0,
       backgroundColor: foreground_color
     });
   }
@@ -62,16 +62,16 @@ export function initialize_customization (player_id) {
   $('#' + player_id + ' .ui-slider .ui-slider-handle').focus(function () {
       $(this).css({
         boxShadow: foreground_color_hover + ' 0px 0px 0px 2px',
-        border: '2px solid ' + background_color,
-        marginTop: '-2px',
-        marginLeft: parseFloat ($(this).css('margin-left')) - 2 + 'px',
+        //border: '2px solid ' + background_color,
+        //marginTop: '-2px',
+        //marginLeft: parseFloat ($(this).css('margin-left')) - 2 + 'px',
         backgroundColor: foreground_color_hover
       });
   });
 
   /* Reset the volume handle styles back to their default state on blur */
   $('#' + player_id + ' .ui-slider .ui-slider-handle').blur ( function () {
-    $(this).css('margin-left', parseFloat ($(this).css('margin-left')) + 2 + 'px');
+    //$(this).css('margin-left', parseFloat ($(this).css('margin-left')) + 2 + 'px');
     default_attributes();
   });
 
