@@ -13,4 +13,4 @@ Example usage:
           data-background-hover="#555555">
           <!-- Optional HTML to show in the player bar -->
     </div>
-    <script src="dist/player.js" data-player-id="livestream_player"></script>
+    <script src=“https://cdn.jsdelivr.net/gh/ktoodev/triton-livestream-player@1.2/dist/player.js” data-player-id="livestream_player"></script>
