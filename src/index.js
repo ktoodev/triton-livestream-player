@@ -1,3 +1,6 @@
+
+console.log ('basic test 043');
+
 import $ from "jquery";
 
 import {Triton_Livestream_Player} from './Triton_Livestream_Player';
@@ -12,6 +15,8 @@ $(document).ready(function() {
 
 
       const player_id = 'livestream_player';
+
+      console.log ('player_id: ' + player_id);
 
       new Triton_Livestream_Player(player_id);
     });
