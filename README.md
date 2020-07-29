@@ -10,7 +10,10 @@ Example usage:
           data-foreground="#DDDDDD"
           data-background="#333333"
           data-foreground-hover="#FFFFFF"
-          data-background-hover="#555555">
+          data-background-hover="#555555"
+          data-debug-log="false"
+          data-log-element="#player_log"
+          >
           <!-- Optional HTML to show in the player bar -->
     </div>
     <script src=“https://cdn.jsdelivr.net/gh/ktoodev/triton-livestream-player@1.2/dist/player.js”></script>

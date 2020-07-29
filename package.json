@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "color-alpha": "^1.0.4",
+    "copy-text-to-clipboard": "^2.2.0",
     "core-js": "^3.6.5",
     "jquery": "^3.5.1",
     "js-cookie": "^2.2.1",

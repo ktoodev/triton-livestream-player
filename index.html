@@ -3,6 +3,13 @@
  <head>
    <meta name="viewport" content="width=device-width">
    <title>Simple player example</title>
+   <style>
+   button#tdsdk_player_log_copy_button {
+        display: block;
+        padding: 10px 20px;
+        margin: 10px 0;
+    }
+</style>
  </head>
 
  <body>
@@ -12,11 +19,15 @@
       data-foreground="#DDDDDD"
       data-background="#333333"
       data-foreground-hover="#FFFFFF"
-      data-background-hover="#555555">
+      data-background-hover="#555555"
+      data-debug-log="false"
+      data-log-element="#player_log"
+      >
 
       Live stream player
 
     </div>
+    <div id="player_log"></div>
    <script src="dist/player.js" data-player-id="livestream_player"></script>
 
  </body>

@@ -8,6 +8,7 @@ import './scss/slider.scss';
 import Cookies from 'js-cookie';
 
 import {initialize_customization} from './initialize_customization.js';
+import {log} from './log.js';
 
 import player_markup from './html/player-ui.html';
 
@@ -256,6 +257,9 @@ export class Triton_Livestream_Player {
      * @var {TDSdk}
      */
     this.player = new TDSdk(tdPlayerConfig);
+
+    log ('Player initialized; TDSdk: ');
+    log (this.player);
   }
 
 
@@ -265,6 +269,7 @@ export class Triton_Livestream_Player {
    * @param {string} state - The new state (a property of {@link STATUS})
    */
   set_player_state(state) {
+    log('set_player_state: ' + state);
 
     // update the button markup and class
     $('#' + this.player_id + ' .transport-button').html(this.button_states[state].content);
@@ -281,6 +286,8 @@ export class Triton_Livestream_Player {
    * Callback to finish setup after the player is ready
    */
   on_player_ready() {
+    log ('on_player_ready');
+
     this.set_player_state(this.STATUS.STOPPED);
 
     // call on_status_change() for any status change at all
@@ -290,15 +297,24 @@ export class Triton_Livestream_Player {
 
     // toggle what the player is doing (based on the current {@link player_state})
     $('#' + this.player_id + ' .transport-button').click(() => {
+      log ('Transport clicked; state: ' + this.player_state);
+
       switch (this.player_state) {
         case this.STATUS.STOPPED:
+          log ('player.setVolume');
           this.player.setVolume(this.get_volume() / 100);
+          log ('player.play; station: ' + this.station);
           this.player.play({ station: this.station });
+          log ('done');
           break;
 
         case this.STATUS.LOADING:
         case this.STATUS.PLAYING:
+          log ('player.stop');
           this.player.stop();
+
+        default:
+          log ('Other state: ' + this.player_state);
       }
     });
 
@@ -328,6 +344,8 @@ export class Triton_Livestream_Player {
    * Callback for whenever the player state changes
    */
   on_status_change(event) {
+    log ('on_status_change');
+    log (event);
 
     // code as defined in the Triton SDK
     let code = event.data.code;
@@ -364,7 +382,7 @@ export class Triton_Livestream_Player {
    * @todo Show error messages and instructions to the end user in a useful way
    */
   on_player_error(e) {
-    console.log(object);
-    console.log(object.data.errors);
+    log(object);
+    log(object.data.errors);
   }
 }
