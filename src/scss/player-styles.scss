@@ -1,3 +1,4 @@
+@import 'vars';
 
 .td_player_container {
 
@@ -23,8 +24,10 @@
     flex-basis:25%;
     min-width:100px;
     flex-grow:1;
-    padding:10px 20px 10px 0;
+    //padding:$slider-padding-top $slider-padding-right $slider-padding-bottom $slider-padding-left;
     max-width: 300px;
+    display: grid;
+    min-height: 35px;
   }
 
   .transport-button {

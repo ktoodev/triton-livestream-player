@@ -15,12 +15,7 @@
  * http://api.jqueryui.com/slider/#theming
  */
 
-$track_width: 6px;
-$handle_height: 20px;
-$handle_width: $handle_height;
-
-$track_color: gray;
-$handle_color: white;
+@import 'vars';
 
 .td_player_container {
 

@@ -1,9 +1,7 @@
-
-$offset: 187;
-$duration: 1.4s;
+@import 'vars';
 
 .spinner {
-  animation: rotator $duration linear infinite;
+  animation: rotator $loader-anim-duration linear infinite;
   width: 40px;
   height: auto;
 }
@@ -14,21 +12,21 @@ $duration: 1.4s;
 }
 
 .path {
-  stroke-dasharray: $offset;
+  stroke-dasharray: $loader-dash-offset;
   stroke-dashoffset: 0;
   transform-origin: center;
   animation:
-    dash $duration ease-in-out infinite,
+    dash $loader-anim-duration ease-in-out infinite,
 }
 
 @keyframes dash {
- 0% { stroke-dashoffset: $offset; }
+ 0% { stroke-dashoffset: $loader-dash-offset; }
  50% {
-   stroke-dashoffset: $offset/4;
+   stroke-dashoffset: $loader-dash-offset/4;
    transform:rotate(135deg);
  }
  100% {
-   stroke-dashoffset: $offset;
+   stroke-dashoffset: $loader-dash-offset;
    transform:rotate(450deg);
  }
 }
