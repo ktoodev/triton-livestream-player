@@ -23,21 +23,21 @@ export function initialize_customization (player_id) {
 
     // transport (play/pause) button
     $('#' + player_id + ' .transport-button').css({
-      backgroundColor: background_color,
+      background: background_color,
       color: foreground_color,
       stroke: foreground_color,
       fill: foreground_color
     });
 
     // slider track
-    $('#' + player_id + ' .ui-slider').css('background-color', alpha (foreground_color, 0.5));
+    $('#' + player_id + ' .ui-slider').css('background', alpha (foreground_color, 0.5));
 
     // slider handle
     $('#' + player_id + ' .ui-slider .ui-slider-handle').css({
       boxShadow: 'none',
       border: '2px solid ' + background_color,
       //marginTop: 0,
-      backgroundColor: foreground_color
+      background: foreground_color
     });
   }
 
@@ -49,13 +49,13 @@ export function initialize_customization (player_id) {
   $('#' + player_id + ' .transport-button').hover(function() {
 
     $(this).css ({
-      backgroundColor: background_color_hover,
+      background: background_color_hover,
       color: foreground_color_hover,
       stroke: foreground_color_hover,
       fill: foreground_color_hover
     });
 
-  }, default_attributes);
+  }, default_attributes); 
 
 
   /* Apply foreground colors and highlighting border to the volume handle on focus */
@@ -65,7 +65,7 @@ export function initialize_customization (player_id) {
         //border: '2px solid ' + background_color,
         //marginTop: '-2px',
         //marginLeft: parseFloat ($(this).css('margin-left')) - 2 + 'px',
-        backgroundColor: foreground_color_hover
+        background: foreground_color_hover
       });
   });
 
