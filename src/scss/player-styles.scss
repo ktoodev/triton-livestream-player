@@ -2,6 +2,10 @@
 
 .td_player_container {
 
+  .td_container {
+    display:none;
+  }
+
   display: flex;
   flex-flow: row wrap;
   justify-content: flex-start;
