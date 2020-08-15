@@ -1,9 +1,11 @@
 const path = require('path');
 
   module.exports = {
-    //devtool : 'inline-source-map',
+    devtool : 'source-map',
 
-    entry: './src/index.js',
+    entry: [
+      './src/index.js'
+    ],
     output: {
      filename: 'player.js',
       path: path.resolve(__dirname, 'dist'),
@@ -13,7 +15,13 @@ const path = require('path');
       rules: [
         {
            test: /\.js$/,
-           use: ['babel-loader']
+           //exclude: /node_modules\/(?!copy-text-to-clipboard)/,
+           use: {
+      				loader: 'babel-loader',
+      				options: {
+      					presets: ['@babel/preset-env']
+      				}
+      			}
          },
         {
           test: /\.css$/,
