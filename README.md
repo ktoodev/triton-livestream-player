@@ -13,6 +13,7 @@ Example usage:
           data-background-hover="#555555"
           data-debug-log="false"
           data-log-element="#player_log"
+          data-autoplay="autoplay"
           >
           <!-- Optional HTML to show in the player bar -->
     </div>

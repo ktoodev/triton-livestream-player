@@ -16,6 +16,7 @@ import loader_icon from './img/loader.svg';
 import play_icon from './img/play.svg';
 import stop_icon from './img/stop.svg';
 
+import get_url_param from './get_url_param.js';
 
 export class Triton_Livestream_Player {
 
@@ -33,6 +34,9 @@ export class Triton_Livestream_Player {
      * @constant {string} station - Triton station name (from the data-station attribute on the player container - see {@link td_container_id})
      */
     this.station = $('#' + player_id).data('station');
+
+
+    this.autoplay = $('#' + player_id).data('autoplay');
 
     // set up default properties
     this.init_properties();
@@ -295,6 +299,19 @@ export class Triton_Livestream_Player {
       this.on_status_change(event)
     });
 
+    // if autoplay is enabled, attempt to start (won't work on mobile)
+    log (this.autoplay);
+    if (this.autoplay === true
+        || get_url_param (this.autoplay, true) ) {
+      log ('attempting to autoplay: ' + this.station);
+      this.player.setVolume(this.get_volume() / 100);
+      this.player.play({ station: this.station });
+    }
+    else {
+      log ('autoplay disabled');
+    }
+
+
     // toggle what the player is doing (based on the current {@link player_state})
     $('#' + this.player_id + ' .transport-button').click(() => {
       log ('Transport clicked; state: ' + this.player_state);
@@ -372,6 +389,8 @@ export class Triton_Livestream_Player {
       case 'STREAM_GEO_BLOCKED':
       case 'STATION_NOT_FOUND':
       case 'PLAY_NOT_ALLOWED':
+        this.set_player_state('stopped');
+        break;
     }
   }
 
