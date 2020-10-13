@@ -294,6 +294,31 @@ export class Triton_Livestream_Player {
 
     this.set_player_state(this.STATUS.STOPPED);
 
+
+    let events_to_log = [
+      'player-ready',
+      'stream-start',
+      'stream-stop',
+      'stream-select',
+      'stream-config-ready',
+      'stream-config-error',
+      'stream-config-load-error',
+      'stream-fail',
+      'stream-error',
+      'track-cue-point',
+      'timeout-alert',
+      'timeout-reach',
+      'configuration-error',
+    ];
+
+    events_to_log.forEach (event_name => {
+      this.player.addEventListener(event_name, (event) => {
+        log ('EVENT: ' + event_name);
+        log (event);
+      });
+    });
+
+
     // call on_status_change() for any status change at all
     this.player.addEventListener('stream-status', (event) => {
       this.on_status_change(event)
@@ -361,7 +386,7 @@ export class Triton_Livestream_Player {
    * Callback for whenever the player state changes
    */
   on_status_change(event) {
-    log ('on_status_change');
+    log ('EVENT: on_status_change');
     log (event);
 
     // code as defined in the Triton SDK
