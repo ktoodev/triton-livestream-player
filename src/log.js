@@ -40,6 +40,11 @@ export function log (message) {
     message = JSON.stringify(message);
   }
 
+  let date = new Date();
+  let datestamp = date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate() + " " +  date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds();
+
+  message = '[' + datestamp + '] ' + message;
+
   // append the log message to the element we're logging to
   log_element.append (message + "\n");
 }
