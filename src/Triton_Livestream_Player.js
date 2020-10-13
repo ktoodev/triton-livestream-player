@@ -294,7 +294,7 @@ export class Triton_Livestream_Player {
 
     this.set_player_state(this.STATUS.STOPPED);
 
-
+    // log additional player events for debugging purposes
     let events_to_log = [
       'player-ready',
       'stream-start',
