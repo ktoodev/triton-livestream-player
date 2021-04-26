@@ -18,4 +18,4 @@ Example usage:
           <!-- Optional HTML to show in the player bar -->
     </div>
     <div id="player_log"></div>
-    <script src=“https://cdn.jsdelivr.net/gh/ktoodev/triton-livestream-player@1.2.7/dist/player.js”></script>
+    <script src="https://cdn.jsdelivr.net/gh/ktoodev/triton-livestream-player/dist/player.js"></script>
